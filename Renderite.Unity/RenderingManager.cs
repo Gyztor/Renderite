@@ -1383,7 +1383,7 @@ namespace Renderite.Unity
             switch (Application.platform)
             {
                 case RuntimePlatform.Android:
-                    if (XRDevice.isPresent)
+                    if (XRDeviceReplacement.isPresent)
                         initData.outputDevice = HeadOutputDevice.OculusQuest;
                     else
                         initData.outputDevice = HeadOutputDevice.Screen;
@@ -1391,7 +1391,7 @@ namespace Renderite.Unity
 
                 // assume a PC platform
                 default:
-                    if (XRDevice.isPresent)
+                    if (XRDeviceReplacement.isPresent)
                     {
                         if (XRSettings.loadedDeviceName.ToLower().Contains("oculus"))
                             initData.outputDevice = HeadOutputDevice.Oculus;
