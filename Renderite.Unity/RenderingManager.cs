@@ -578,6 +578,8 @@ namespace Renderite.Unity
             if (!activeOutput.gameObject.activeSelf)
                 activeOutput.gameObject.SetActive(true);
 
+            
+
             if(vrActive != _lastVRactive)
             {
                 _lastVRactive = vrActive;
@@ -585,7 +587,8 @@ namespace Renderite.Unity
                 Input.VR_ActiveChanged(vrActive);
 
                 UpdateQualitySettings(vrActive);
-            }           
+            }
+            Instance.OverlayCamera.gameObject.SetActive(!vrActive);           
 
             return activeOutput;
         }
@@ -1383,7 +1386,7 @@ namespace Renderite.Unity
             switch (Application.platform)
             {
                 case RuntimePlatform.Android:
-                    if (XRDeviceReplacement.isPresent)
+                    if (XRDeviceReplacement.isPresent())
                         initData.outputDevice = HeadOutputDevice.OculusQuest;
                     else
                         initData.outputDevice = HeadOutputDevice.Screen;
@@ -1391,7 +1394,7 @@ namespace Renderite.Unity
 
                 // assume a PC platform
                 default:
-                    if (XRDeviceReplacement.isPresent)
+                    if (XRDeviceReplacement.isPresent())
                     {
                         if (XRSettings.loadedDeviceName.ToLower().Contains("oculus"))
                             initData.outputDevice = HeadOutputDevice.Oculus;
