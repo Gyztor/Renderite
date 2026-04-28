@@ -60,6 +60,8 @@ namespace Renderite.Unity
         {
             get
             {
+                return false;
+
                 if (Renderite.Shared.Helper.IsWine || MainProcess is null)
                     return !Directory.Exists($"/proc/{_mainProcessId}");
                 else
@@ -175,6 +177,14 @@ namespace Renderite.Unity
 
         void Awake()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                Debug.Log("Renderite.Unity il2cpp-testing branch by jvyden - report bugs on the discussion!");
+            }
+            
+            Debug.Log("");
+            Debug.Log("This is a custom renderer and therefore you should not submit bug reports to the official Resonite-Issues tracker!");
+            
             if (Instance != null)
                 throw new InvalidOperationException("Only one RenderingManager can exist");
 
@@ -967,14 +977,14 @@ namespace Renderite.Unity
 
             Debug.Log("UniqueSessionId: " + UniqueSessionId);
 
-            if (!Renderite.Shared.Helper.IsWine)
-            {
-                var wasapi = new CSCore.SoundOut.WasapiOut(false, CSCore.CoreAudioAPI.AudioClientShareMode.Shared, 100, initData.uniqueSessionId, true);
-                var audioFormat = new WaveFormat(wasapi.Device.DeviceFormat.SampleRate, 32, wasapi.Device.DeviceFormat.Channels, AudioEncoding.IeeeFloat);
-                wasapi.Initialize(new SilenceSource(audioFormat));
-
-                Debug.Log($"Initialized dummy WASAPI session");
-            }
+            // if (!Renderite.Shared.Helper.IsWine)
+            // {
+            //     var wasapi = new CSCore.SoundOut.WasapiOut(false, CSCore.CoreAudioAPI.AudioClientShareMode.Shared, 100, initData.uniqueSessionId, true);
+            //     var audioFormat = new WaveFormat(wasapi.Device.DeviceFormat.SampleRate, 32, wasapi.Device.DeviceFormat.Channels, AudioEncoding.IeeeFloat);
+            //     wasapi.Initialize(new SilenceSource(audioFormat));
+            //
+            //     Debug.Log($"Initialized dummy WASAPI session");
+            // }
 
             if (initData.windowTitle != null)
             {
@@ -993,10 +1003,10 @@ namespace Renderite.Unity
 
             _mainProcessId = initData.mainProcessId;
 
-            if (!Renderite.Shared.Helper.IsWine)
-                MainProcess = System.Diagnostics.Process.GetProcessById(_mainProcessId);
-
-            Task.Run(MainProcessWatchDog);
+            // if (!Renderite.Shared.Helper.IsWine)
+            //     MainProcess = System.Diagnostics.Process.GetProcessById(_mainProcessId);
+            //
+            // Task.Run(MainProcessWatchDog);
 
             DebugFramePacing = initData.debugFramePacing;
 
@@ -1046,7 +1056,7 @@ namespace Renderite.Unity
 
             var result = new RendererInitResult();
 
-            result.rendererIdentifier = $"Renderite.Renderer.Unity {Application.version} ({Application.unityVersion})";
+            result.rendererIdentifier = $"Renderite.Renderer.Unity jvyden/il2cpp-testing {Application.version} ({Application.unityVersion})";
             result.mainWindowHandlePtr = WindowsNativeHelper.MainWindowHandle.ToInt64();
 
             result.actualOutputDevice = initializedDevice;
